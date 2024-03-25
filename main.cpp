@@ -15,7 +15,7 @@ int main() {
 	cout << "Его двойник: " << polinom.ToString() << endl;
 	//p=p.MultMonom(a);
 	//cout <<"Полином p после умножения на моном а: " << p.ToString() << endl;
-	cout << (p == polinom);
+	//cout << (p == polinom);
 	//p.AddMonom(b);
 	//p.AddMonom(a);
 	cout <<"Сложение П: "<<(polinom + p).ToString();
