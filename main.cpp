@@ -22,10 +22,10 @@ int main() {
 	cout<<"Умножение П: "<<(polinom * p).ToString();
 	polinom.AddMonom(c);
 	cout << "Добавив 3x1^2х2^3х3^4 : " << polinom.ToString() << endl;
-    polinom.AddMonom(t);
+    	polinom.AddMonom(t);
 	cout << "Добавив 5x1^1х2^2х3^1 : " << polinom.ToString() << endl;
 	cout << " " << (polinom*3).ToString() << endl;
 	cout << " " <<polinom.ToString() << endl;
- ;
+ 
 	
 }
