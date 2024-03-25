@@ -21,7 +21,7 @@ public:
 	TPolinom(TDynamicVector<TMonom> vec);//
 	TPolinom(string str); 
 	TPolinom& operator=(TPolinom& other); 
-	TPolinom& operator+(TPolinom& q); 
+	TPolinom operator+(TPolinom& q); 
 
 
 	TPolinom AddMonom(TMonom newMonom); //
@@ -36,9 +36,6 @@ public:
 
 TPolinom::TPolinom() //не проверял
 {
-	TMonom t(3, 1, 1, 1);
-	list.push_back(t);
-	list.pop_back();
 }
 
 TPolinom::TPolinom(TPolinom& other)//работает
@@ -190,11 +187,14 @@ TPolinom TPolinom::MultMonom(TMonom monom)// работает
 	return *this;
 }
 
-TPolinom& TPolinom::operator+(TPolinom& other)//работает
+TPolinom TPolinom::operator+(TPolinom& other)//работает
 {
-	for (TMonom var : other.list) { this->AddMonom(var); }
+	/*for (TMonom var : other.list) { this->AddMonom(var); }
+	return *this;*/
+	TPolinom res(*this);
+	for (TMonom& var : other.list) { res.AddMonom(var); }
 	
-	return *this;
+	return res;
 }
 
 
@@ -212,9 +212,11 @@ TPolinom TPolinom::operator*(double _coef)//работает
 TPolinom TPolinom::operator*(TPolinom& other)//пока не работает
 {
 	TPolinom res(*this);
+	res.list.clear();
 	for (TMonom var : list) {
 		for (TMonom var2 : other.list) {
-			// = var * var2;
+			TMonom var3 = var * var2;
+			res.AddMonom(var3);
 		}
 	}
 
