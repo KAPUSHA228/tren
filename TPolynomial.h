@@ -34,16 +34,17 @@ public:
 	string ToString(); //
 };
 
-TPolinom::TPolinom() {
+TPolinom::TPolinom() //не трогал
+{
 	
 }
 
-TPolinom::TPolinom(TPolinom& other)
+TPolinom::TPolinom(TPolinom& other)//работает
 {
 	list = other.list;
 }
 
-TPolinom::TPolinom(TDynamicVector<TMonom> vec)
+TPolinom::TPolinom(TDynamicVector<TMonom> vec)//работает
 {
 	for (int i = 0; i <= vec.size()-1; i++)
 	{
@@ -116,7 +117,7 @@ TPolinom::TPolinom(TDynamicVector<TMonom> vec)
 	pStop = nullptr;*/
 }
 
-TPolinom::TPolinom(string str)
+TPolinom::TPolinom(string str)//не трогал
 {
 	/*size_t pos = 0;
 	while (pos < str.length()) {
@@ -156,30 +157,34 @@ TPolinom::TPolinom(string str)
 	}*/
 }
 
-TPolinom& TPolinom::operator=(TPolinom& other)
+TPolinom& TPolinom::operator=(TPolinom& other)//работает
 {
 	this->list = other.list;
 	return *this;
 }
 
-TPolinom TPolinom::AddMonom(TMonom otherMon)
+TPolinom TPolinom::AddMonom(TMonom otherMon)//работает
 {
-	//TPolinom res(*this);
 	bool i = false;
-	for (TMonom var : list) {
-		if (var.compare(otherMon)) { 
-			var + otherMon; //
+	for (TMonom& var : this->list) {
+		if (var.compare(otherMon)==true) { 
+			var=var + otherMon; 
 			i = true; 
 			break; }
 	}
 	if(i == false) list.push_back(otherMon);
-	for (TMonom t : list) { cout << t.GetCoef() << endl; }
+	return *this;
+}
+TPolinom TPolinom::AddPolinom(TPolinom& other)
+{
+	for (TMonom var : other.list) { list.push_back(var); }
+
 	return *this;
 }
 
-TPolinom TPolinom::MultMonom(TMonom monom)
+TPolinom TPolinom::MultMonom(TMonom monom)// работает
 {
-	for (TMonom var : list) { var*monom; }
+	for (TMonom& var : list) { var*monom; }
 	return *this;
 }
 
@@ -190,12 +195,7 @@ TPolinom& TPolinom::operator+(TPolinom& other)
 	return *this;
 }
 
-TPolinom TPolinom::AddPolinom(TPolinom& other)
-{
-	for (TMonom var : other.list) { list.push_back(var); }
-	
-	return *this;
-}
+
 
 TPolinom TPolinom::operator*(double _coef)
 {
@@ -210,7 +210,7 @@ TPolinom TPolinom::operator*(double _coef)
 TPolinom TPolinom::operator*(TPolinom& other)
 {
 	TPolinom res(*this);
-	for (TMonom var : res.list) {
+	for (TMonom& var : res.list) {
 		for (TMonom var2 : other.list) {
 			var=var* var2;
 		}
@@ -219,24 +219,28 @@ TPolinom TPolinom::operator*(TPolinom& other)
 	return res;
 }
 
-bool TPolinom::operator==(TPolinom& other)
+bool TPolinom::operator==(TPolinom& other)//не работает
 {
+	TPolinom res(*this);
+	bool k = false;
 	if (list.size() != other.list.size()) return false;
-	for (TMonom var : this->list) {
+	for (TMonom& var : res.list) {
 		for (TMonom var2 : other.list) {
-			if (var != var2) { return false; }
+			if (var == var2) { res.list.pop_front(); k = true; break; }
 		}
+		if (k == false) { return false; }
 	}
-	return true;
+	if (res.list.size() == 0) return true;
+	else return false;
 }
 
-bool TPolinom::operator!=(TPolinom& other)
+bool TPolinom::operator!=(TPolinom& other)//обратно ==
 {
 	
 	return !(*this==other);
 }
 
-string TPolinom::ToString()
+string TPolinom::ToString()//работает
 {
 	string res;
 	for (TMonom var : list)
