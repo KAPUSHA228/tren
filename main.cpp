@@ -14,18 +14,20 @@ int main() {
 	
 	//TPolinom p2("3x1^2х2^3х3^4");
 	TPolinom polinom(vec);
+	cout << "Исходный полином: " << polinom.ToString() << endl;
 	TPolinom p = polinom;
-	p=p.MultMonom(a);
-	cout << p.ToString();
+	//p=p.MultMonom(a);
+	//cout <<"Полином p после умножения на моном а: " << p.ToString() << endl;
+	//cout << (p == polinom);
 	//p.AddMonom(b);
 	//p.AddMonom(a);
-	//cout << "Исходный полином: " << polinom.ToString() << endl;
+	cout <<"ПУМ"<<(polinom + p).ToString();
+	cout<<"ПАМ"<<(p * polinom).ToString();
 	polinom.AddMonom(c);
-
-	//cout << "Добавив 3x1^2х2^3х3^4 : " << polinom.ToString() << endl;
+	cout << "Добавив 3x1^2х2^3х3^4 : " << polinom.ToString() << endl;
     polinom.AddMonom(t);
-	//cout << "Добавив 5x1^1х2^2х3^1 : " << polinom.ToString() << endl;
-	//cout << " " << (polinom*3).ToString() << endl;
-	//TPolinom ab = polinom + p;
-	//cout << ab.ToString();
+	cout << "Добавив 5x1^1х2^2х3^1 : " << polinom.ToString() << endl;
+	cout << " " << (polinom*3).ToString() << endl;
+ ;
+	
 }
