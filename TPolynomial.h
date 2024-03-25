@@ -34,9 +34,11 @@ public:
 	string ToString(); //
 };
 
-TPolinom::TPolinom() //не трогал
+TPolinom::TPolinom() //не проверял
 {
-	
+	TMonom t(3, 1, 1, 1);
+	list.push_back(t);
+	list.pop_back();
 }
 
 TPolinom::TPolinom(TPolinom& other)//работает
@@ -175,9 +177,9 @@ TPolinom TPolinom::AddMonom(TMonom otherMon)//работает
 	if(i == false) list.push_back(otherMon);
 	return *this;
 }
-TPolinom TPolinom::AddPolinom(TPolinom& other)
+TPolinom TPolinom::AddPolinom(TPolinom& other)//работает
 {
-	for (TMonom var : other.list) { list.push_back(var); }
+	for (TMonom var : other.list) { this->AddMonom(var); }
 
 	return *this;
 }
@@ -188,31 +190,31 @@ TPolinom TPolinom::MultMonom(TMonom monom)// работает
 	return *this;
 }
 
-TPolinom& TPolinom::operator+(TPolinom& other)
+TPolinom& TPolinom::operator+(TPolinom& other)//работает
 {
-	for (TMonom var : other.list) { list.push_back(var); }
+	for (TMonom var : other.list) { this->AddMonom(var); }
 	
 	return *this;
 }
 
 
 
-TPolinom TPolinom::operator*(double _coef)
+TPolinom TPolinom::operator*(double _coef)//работает
 {
 	TPolinom res(*this);
-	for (TMonom var : res.list) {
+	for (TMonom& var : res.list) {
 		var.SetCoef(var.GetCoef() * _coef);
 	
 	}
 	return res;
 }
 
-TPolinom TPolinom::operator*(TPolinom& other)
+TPolinom TPolinom::operator*(TPolinom& other)//пока не работает
 {
 	TPolinom res(*this);
-	for (TMonom& var : res.list) {
+	for (TMonom var : list) {
 		for (TMonom var2 : other.list) {
-			var=var* var2;
+			// = var * var2;
 		}
 	}
 
