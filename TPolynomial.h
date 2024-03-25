@@ -26,6 +26,8 @@ public:
 
 	TPolinom AddMonom(TMonom newMonom); //
 	TPolinom MultMonom(TMonom monom); 
+	TPolinom Div(int variable, int order);
+	TPolinom Integral(int variable, int order);
 	TPolinom AddPolinom(TPolinom& other); 
 	TPolinom operator*(double coef); 
 	TPolinom operator* (TPolinom& other);
@@ -196,7 +198,53 @@ TPolinom TPolinom::operator+(TPolinom& other)//работает
 	
 	return res;
 }
-
+TPolinom TPolinom::Div(int variable, int order) {
+	TPolinom res(*this);
+	for (int i = 0; i < order; i++) {
+		switch (variable) {
+		case 1:
+			for (TMonom& var : res.list) {
+				var.SetCoef(var.GetCoef() * var.GetDegreeX());
+				var.SetDegree(var.GetDegreeX() - 1, var.GetDegreeY(), var.GetDegreeZ());
+				
+			} break;
+		case 2: for (TMonom& var : res.list) {
+			var.SetCoef(var.GetCoef() * var.GetDegreeY());
+			var.SetDegree(var.GetDegreeX(), var.GetDegreeY() - 1, var.GetDegreeZ());
+			
+		} break;
+		case 3: for (TMonom& var : res.list) {
+			var.SetCoef(var.GetCoef() * var.GetDegreeZ());
+			var.SetDegree(var.GetDegreeX(), var.GetDegreeY(), var.GetDegreeZ() - 1);
+			
+		} break;
+		default: break;
+		}
+	}
+	return res;
+}
+TPolinom TPolinom::Integral(int variable, int order) {
+	TPolinom res(*this);
+	for (int i = 0; i < order; i++) {
+		switch (variable) {
+		case 1:
+			for (TMonom& var : res.list) {
+				var.SetDegree(var.GetDegreeX() + 1, var.GetDegreeY(), var.GetDegreeZ());
+				var.SetCoef(var.GetCoef() / var.GetDegreeX());
+			} break;
+		case 2: for (TMonom& var : res.list) {
+			var.SetDegree(var.GetDegreeX(), var.GetDegreeY() + 1, var.GetDegreeZ());
+			var.SetCoef(var.GetCoef() / var.GetDegreeY());
+		} break;
+		case 3: for (TMonom& var : res.list) {
+			var.SetDegree(var.GetDegreeX(), var.GetDegreeY(), var.GetDegreeZ() + 1);
+			var.SetCoef(var.GetCoef()/var.GetDegreeZ());
+		} break;
+		default: break;
+		}
+	}
+	return res;
+}
 
 
 TPolinom TPolinom::operator*(double _coef)//работает
@@ -254,7 +302,6 @@ string TPolinom::ToString()//работает
 			"x^" + to_string(var.GetDegree()[0]) +
 			"y^" + to_string(var.GetDegree()[1]) +
 			"z^" + to_string(var.GetDegree()[2])+" ";
-		
 	}
 	cout << endl;
 	
