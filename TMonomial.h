@@ -16,8 +16,8 @@ public:
 		degZ = _degZ;
 
 	}
-	void SetCoef(int cval) { coef = cval; }
-	int GetCoef(void) { return coef; }
+	void SetCoef(double cval) { coef = cval; }
+	double GetCoef(void) { return coef; }
 	int GetDegreeX(void) { return degX; }
 	int GetDegreeY(void) { return degY; }
 	int GetDegreeZ(void) { return degZ; }
