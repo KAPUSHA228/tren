@@ -22,10 +22,11 @@ public:
 	int GetDegreeY(void) { return degY; }
 	int GetDegreeZ(void) { return degZ; }
 	bool compare(const TMonom& other) {
-		if ((degX == other.degX) && (degY == other.degY) &&	(degZ == other.degZ))
-			return true;
-		else
-			return false; 
+		if ((degX != other.degX) ||
+			(degY != other.degY) ||
+			(degZ != other.degZ))
+			return false;
+		return true;
 	}
 	int* GetDegree(void) {
 		int* d = new int[3];
@@ -40,10 +41,10 @@ public:
 		degZ = zval;
 	}
 	bool operator==(const TMonom& other) {
-		if ((coef != other.coef) ||
-			(degX != other.degX) ||
-			(degY != other.degY) ||
-			(degZ != other.degZ))
+		if ((coef == other.coef) &&
+			(degX == other.degX) &&
+			(degY == other.degY) &&
+			(degZ == other.degZ))
 			return false;
 		return true;
 	}
@@ -59,9 +60,9 @@ public:
 	}
 	TMonom operator*(const TMonom& other) {
 		coef *= other.coef;
-		degX *= other.degX;
-		degY *= other.degY;
-		degZ *= other.degZ;
+		degX += other.degX;
+		degY += other.degY;
+		degZ += other.degZ;
 		return *this;
 	}
 	bool operator!=(const TMonom& other) {
